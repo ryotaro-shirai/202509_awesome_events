@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+  202509-awesome-events-mysql:
+    container_name: 202509-awesome-events-mysql
+    image: mysql:8.0
+    environment:
+      TZ: Asia/Tokyo
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - 4306:3306
+    env_file:
+      - .env
+    networks:
+      app_net:
+        ipv4_address: '172.60.0.3'
+
+  202509-awesome-events-app:
+    container_name: 202509-awesome-events-app
+    build: ./awesome_events/
+    image: 202509-awesome-events-app
+    command: bundle exec rails server -b 0.0.0.0
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./awesome_events:/app:cached
+      - bundle_data:/usr/local/bundle:cached
+      - /app/vendor
+      - /app/tmp
+      - /app/log
+      - /app/.git
+    env_file:
+      - .env
+    depends_on:
+      - 202509-awesome-events-mysql
+    ports:
+      - 4001:3000 # ポートフォワード
+    networks:
+      app_net:
+        ipv4_address: '172.60.0.2'
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.60.0.0/24
+
+volumes:
+  bundle_data:
+  mysql_data:
+  node_modules:
