@@ -20,7 +20,7 @@ services:
     container_name: 202509-awesome-events-app
     build: ./awesome_events/
     image: 202509-awesome-events-app
-    command: bundle exec rails server -b 0.0.0.0
+    command: bin/dev
     tty: true
     stdin_open: true
     volumes:
