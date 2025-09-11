@@ -35,7 +35,7 @@ services:
     depends_on:
       - 202509-awesome-events-mysql
     ports:
-      - 4001:3000 # ポートフォワード
+      - 4000:3000 # ポートフォワード
     networks:
       app_net:
         ipv4_address: '172.60.0.2'
