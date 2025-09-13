@@ -2,7 +2,7 @@
 # 今回はRubyのバージョン3.4をベースイメージとして設定
 FROM ruby:3.4
 # 必要なライブラリをインストール
-RUN apt-get update -qq && apt-get install -y build-essential libpq-dev default-mysql-client
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev default-mysql-client vim
 
 # bootstrap を yarn 経由でダウンロードし、 webpacker 経由で使用しようと思ったが、rails7 以降では　webpacker　非推奨のようなので、gem 経由でインストールした。
 # 以下は yarn 経由でダウンロードし用とした時の形跡
