@@ -26,9 +26,19 @@
     <header class="navbar navbar-expand-sm bg-dark border-bottom border-bottom-dark" data-bs-theme="dark">
       <div class="container">
         <%= link_to "AwesomeEvents", root_path, class: "navbar-brand" %>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <%= button_to "Githubでログイン", "/auth/github", method: :post, data: { turbo: false }, params: { authenticity_token: form_authenticity_token }, class: "nav-link" %>
+          </li>
+        </ul>
       </div>
     </header>
     <div class="container">
+      <% if flash.notice %>
+        <div class = "alert alert-success">
+          <%= flash.notice %>
+        </div>
+      <% end %>
       <%= yield %>
     </div>
   </body>
