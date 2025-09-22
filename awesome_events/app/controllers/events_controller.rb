@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  skip_before_action :authenticate, only: :show
 
   def new
     @event = current_user.created_events.build
@@ -10,6 +11,10 @@ class EventsController < ApplicationController
       redirect_to @event, notice: "作成しました"
     end
     render :new, status: :unprocessable_entity
+  end
+
+  def show
+    @event = Event.find(params[:id])
   end
 
   private
