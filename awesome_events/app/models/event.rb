@@ -8,6 +8,8 @@ class Event < ApplicationRecord
   validates :end_at, presence: true
   validate :start_at_should_be_before_end_at
 
+  scope :available,-> { where("start_at > ?", Time.zone.now) }
+
   private
 
   def start_at_should_be_before_end_at
