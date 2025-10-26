@@ -13,8 +13,7 @@ services:
     env_file:
       - .env
     networks:
-      app_net:
-        ipv4_address: '172.60.0.3'
+      - app_net
 
   202509-awesome-events-app:
     container_name: 202509-awesome-events-app
@@ -37,8 +36,17 @@ services:
     ports:
       - 4000:3000 # ポートフォワード
     networks:
-      app_net:
-        ipv4_address: '172.60.0.2'
+      - app_net
+
+  chrome:
+    container_name: 202509-awesome-events-chrome
+    image: seleniarm/standalone-chromium
+    ports:
+      - "4444:4444"
+    # ref: https://github.com/seleniumhq-community/docker-seleniarm#--shm-size2g
+    shm_size: 2gb
+    networks:
+      - app_net
 
 networks:
   app_net:
