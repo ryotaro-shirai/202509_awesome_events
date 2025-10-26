@@ -24,6 +24,7 @@ services:
     stdin_open: true
     volumes:
       - ./awesome_events:/app:cached
+      - ./awesome_events/tmp/capybara:/app/tmp/capybara
       - bundle_data:/usr/local/bundle:cached
       - /app/vendor
       - /app/tmp
