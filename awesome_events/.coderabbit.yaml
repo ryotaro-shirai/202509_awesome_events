@@ -1,0 +1,79 @@
+# .coderabbit.yaml
+
+# 言語・基本設定
+system_language: "ja-JP"             # レビューを行う際の言語（英語／日本語どちらでも可）
+early_access: false                  # ベータ機能を使うかどうか
+
+reviews:
+  profile: "assertive"               # レビュー厳しめ ("assertive") or 少し緩め ("chill")
+  request_changes_workflow: false     # 必要なら「変更要求」ワークフローを使うか
+  high_level_summary: true           # PRの概要を出してもらうか
+  poem: false                        # レビューに詩や余白コメントを入れてもらうか
+  review_status: true                # レビュー結果（OK／要改善等）を明示するか
+  collapse_walkthrough: false        # 長いウォークスルーを折りたたむか
+  auto_review:
+    enabled: true                    # PR作成時に自動レビューを行うか
+    drafts: false                    # ドラフトPRにもレビューをかけるか
+
+# 対象から除外するブランチ・タイトル・ラベル
+ignored_branch: "wip/*, experimental/*"
+ignored_titles: "WIP, DO NOT REVIEW"
+limit_reviews_by_label: "review-needed"
+
+# パスフィルタ（レビュー対象／除外パス）
+path_filters:
+  - "!**/node_modules/**"
+  - "!**/vendor/**"
+  - "!**/log/**"
+  - "!**/tmp/**"
+  - "**/*.rb"
+  - "**/*.erb"
+  - "**/*.rake"
+
+# ファイル・ディレクトリ別の指示（Rails／Ruby向け）
+path_instructions:
+  - path: "app/models/**/*.rb"
+    instructions: |
+      Review the Ruby models for:
+        - adherence to Rails “skinny model / fat service” principle,
+        - use of ActiveRecord associations wisely,
+        - avoiding logic in callbacks when possible,
+        - ensuring validations and scopes are clear and efficient.
+  - path: "app/controllers/**/*.rb"
+    instructions: |
+      Review the controllers for:
+        - keeping only orchestration, not business logic,
+        - strong parameters properly used,
+        - avoiding heavy rendering logic in controller actions,
+        - proper error handling and use of before_actions.
+  - path: "spec/**/*.rb"
+    instructions: |
+      Review the tests for:
+        - clear, descriptive test names,
+        - use of factories (e.g., FactoryBot) instead of fixtures if used,
+        - avoiding overly broad mocks/stubs,
+        - ensuring meaningful assertions (not just “it works”),
+        - ensuring code coverage targets are met.
+  - path: "**/*.rake"
+    instructions: |
+      Review rake tasks for:
+        - idempotency, safe execution,
+        - clear logging and error handling.
+
+# ツール／静的解析設定（Rails／Ruby用）
+# tools:
+#   rubocop:
+#     enabled: true
+#     config_file: ".rubocop.yml"
+#   brakeman:
+#     enabled: true
+#   semgrep:
+#     enabled: true
+#     config_file: "config/semgrep.yml"
+
+# ナレッジベース・ログ
+knowledge_base:
+  enable: true
+
+# レポート／リリースノート生成
+release_notes: true
