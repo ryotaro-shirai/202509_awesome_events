@@ -45,6 +45,22 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
+  # TODO: 以下の処理のオーバーヘッドが大きいからもう少し何とかしたいな
+  # system testの場合のみトランザクションを無効にし、DatabaseCleanerを使用する
+  config.before(:each, type: :system) do
+    # system testではトランザクションは使えないので無効化
+    config.use_transactional_fixtures = false
+    # 物理削除 (TRUNCATE) 戦略を適用
+    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.start
+  end
+
+  config.after(:each, type: :system) do
+    DatabaseCleaner.clean
+    # system testが終わったら、念のため次のテストのためにデフォルトに戻す
+    config.use_transactional_fixtures = true
+  end
+
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 
